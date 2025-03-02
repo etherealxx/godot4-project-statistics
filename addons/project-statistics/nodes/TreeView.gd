@@ -1,11 +1,12 @@
-tool
-extends "./StatisticsView.gd"
+@tool
+class_name TreeView
+extends StatisticsView
 
-onready var tree: Tree
-onready var summary_tree: Tree
+@onready var tree: Tree
+@onready var summary_tree: Tree
 
 func display(stats: ProjectStatistics) -> void:
-	.display(stats)
+	super(stats)
 	update_tree(stats)
 
 func update_tree(stats: ProjectStatistics) -> void:
@@ -16,12 +17,12 @@ func _on_item_activated() -> void:
 		var path: String = tree.get_selected().get_metadata(0)
 		emit_signal("file_selected", path)
 
-func _on_column_title_pressed(column: int) -> void:
+func _on_column_title_pressed(column: int, mbutton_idx: int) -> void:
 	if stats:
 		stats = stats.duplicate()
 		_sort_by_column(column)
 		update_tree(stats)
-		update_icons()
+		_update_icons()
 
 func _sort_by_column(column: int) -> void:
 	pass

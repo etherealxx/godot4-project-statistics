@@ -1,4 +1,4 @@
-tool
+@tool
 extends "./TreeView.gd"
 
 enum {
@@ -9,6 +9,8 @@ enum {
 	LOCAL_TO_SCENE_COLUMN,
 	SIZE_COLUMN
 }
+
+@export var debug_texture: TextureRect
 
 var total_scenes: TreeItem
 var total_nodes: TreeItem
@@ -23,13 +25,14 @@ func _ready() -> void:
 	tree.set_column_title(BASE_NODE_TYPE_COLUMN, "Base node")
 	tree.set_column_title(NODE_COUNT_COLUMN, "Node count")
 	tree.set_column_title(NODE_CONNECTIONS_COLUMN, "Node connection count")
-	tree.set_column_title(LOCAL_TO_SCENE_COLUMN, "Local to scene")
+	tree.set_column_title(LOCAL_TO_SCENE_COLUMN, "Local2Scene")
+	tree.set_column_expand(LOCAL_TO_SCENE_COLUMN, false)
 	tree.set_column_title(SIZE_COLUMN, "Size")
 	tree.set_column_titles_visible(true)
 	tree.hide_root = true
 	
-	tree.connect("item_activated", self, "_on_item_activated")
-	tree.connect("column_title_pressed", self, "_on_column_title_pressed")
+	tree.connect("item_activated", _on_item_activated)
+	tree.connect("column_title_clicked", _on_column_title_pressed)
 	
 	var root: TreeItem = summary_tree.create_item()
 	total_scenes = summary_tree.create_item(root)
@@ -44,7 +47,7 @@ func _ready() -> void:
 	summary_tree.hide_root = true
 
 func display(stats: ProjectStatistics) -> void:
-	.display(stats)
+	super(stats)
 	
 	total_scenes.set_text(1, str(stats.scenes.size()))
 	total_nodes.set_text(1, str(stats.get_total_nodes()))
@@ -59,7 +62,7 @@ func update_tree(stats: ProjectStatistics) -> void:
 		item.set_cell_mode(LOCAL_TO_SCENE_COLUMN, TreeItem.CELL_MODE_CHECK)
 		
 		item.set_text(NAME_COLUMN, file_stats.get_name())
-		item.set_tooltip(NAME_COLUMN, file_stats.path)
+		item.set_tooltip_text(NAME_COLUMN, file_stats.path)
 		item.set_metadata(NAME_COLUMN, file_stats.path)
 		
 		item.set_text(BASE_NODE_TYPE_COLUMN, file_stats.base_node_type)
@@ -71,29 +74,30 @@ func update_tree(stats: ProjectStatistics) -> void:
 		
 		_format_size(item, SIZE_COLUMN, file_stats.size)
 
-func update_icons() -> void:
+func _update_icons() -> void:
+	#debug_texture.texture = get_theme_icon("PackedScene", "EditorIcons")
 	var root: TreeItem = tree.get_root()
 	if not root:
 		return
-	var next: TreeItem = root.get_children()
-	while next:
-		next.set_icon(NAME_COLUMN, get_icon("PackedScene", "EditorIcons"))
-		next.set_icon(BASE_NODE_TYPE_COLUMN, get_icon(next.get_metadata(BASE_NODE_TYPE_COLUMN), "EditorIcons"))
-		next.set_icon(NODE_COUNT_COLUMN, get_icon("Node", "EditorIcons"))
-		next.set_icon(NODE_CONNECTIONS_COLUMN, get_icon("Slot", "EditorIcons"))
-		next = next.get_next()
+	var root_children: Array[TreeItem] = root.get_children()
+	for next: TreeItem in root_children:
+		next.set_icon_max_width(0, 32)
+		next.set_icon(NAME_COLUMN, get_theme_icon("PackedScene", "EditorIcons"))
+		next.set_icon(BASE_NODE_TYPE_COLUMN, get_theme_icon(next.get_metadata(BASE_NODE_TYPE_COLUMN), "EditorIcons"))
+		next.set_icon(NODE_COUNT_COLUMN, get_theme_icon("Node", "EditorIcons"))
+		next.set_icon(NODE_CONNECTIONS_COLUMN, get_theme_icon("Slot", "EditorIcons"))
 
 func _sort_by_column(column: int) -> void:
 	match column:
 		NAME_COLUMN:
-			stats.scenes.sort_custom(self, "sort_name")
+			stats.scenes.sort_custom(sort_name)
 		BASE_NODE_TYPE_COLUMN:
-			stats.scenes.sort_custom(self, "sort_node_type")
+			stats.scenes.sort_custom(sort_node_type)
 		NODE_COUNT_COLUMN:
-			stats.scenes.sort_custom(self, "sort_node_count")
+			stats.scenes.sort_custom(sort_node_count)
 		NODE_CONNECTIONS_COLUMN:
-			stats.scenes.sort_custom(self, "sort_connection_count")
+			stats.scenes.sort_custom(sort_connection_count)
 		LOCAL_TO_SCENE_COLUMN:
-			stats.scenes.sort_custom(self, "sort_local_to_scene")
+			stats.scenes.sort_custom(sort_local_to_scene)
 		SIZE_COLUMN:
-			stats.scenes.sort_custom(self, "sort_size")
+			stats.scenes.sort_custom(sort_size)

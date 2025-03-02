@@ -4,7 +4,7 @@ func get_extension() -> String:
 	return "Config File"
 	
 func get_color() -> Color:
-	return Color.teal
+	return Color.TEAL
 
 func get_icon() -> String:
 	return "File"

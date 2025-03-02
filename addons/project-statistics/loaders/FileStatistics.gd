@@ -1,3 +1,6 @@
+class_name FileStatistics
+extends RefCounted
+
 var path: String
 var size: int
 var total_lines: int
@@ -9,13 +12,13 @@ func load(at_path: String) -> int:
 	return _load_file_info(at_path)
 
 func _load_file_info(at_path: String, skip_line_count: bool = false) -> int:
-	var file: File = File.new()
-	var error: int = file.open(at_path, File.READ)
-	if error != OK:
-		return error
+	#var file: File = File.new()
+	var file = FileAccess.open(at_path, FileAccess.READ)
+	if file == null:
+		return file
 	
 	path = at_path
-	size = file.get_len()
+	size = file.get_length()
 	
 	total_lines = 0
 	source_code_lines = 0
@@ -49,13 +52,13 @@ func get_icon() -> String:
 	return ""
 
 func get_color() -> Color:
-	return Color.transparent
+	return Color.TRANSPARENT
 
 func is_comment(line: String) -> bool:
 	return false
 
 func is_blank(line: String) -> bool:
-	return line.strip_edges().empty()
+	return line.strip_edges().is_empty()
 
 func is_script() -> bool:
 	return false

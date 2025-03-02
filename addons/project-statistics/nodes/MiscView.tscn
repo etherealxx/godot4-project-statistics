@@ -1,7 +1,28 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://d2tspkrigfp27"]
 
-[ext_resource path="res://addons/project-statistics/nodes/MiscView.gd" type="Script" id=1]
-[ext_resource path="res://addons/project-statistics/nodes/ScriptsView.tscn" type="PackedScene" id=2]
+[ext_resource type="Script" path="res://addons/project-statistics/nodes/MiscView.gd" id="1"]
+[ext_resource type="PackedScene" path="res://addons/project-statistics/nodes/ScriptsView.tscn" id="2"]
 
-[node name="MiscView" instance=ExtResource( 2 )]
-script = ExtResource( 1 )
+[node name="MiscView" instance=ExtResource("2")]
+anchors_preset = 15
+script = ExtResource("1")
+
+[node name="VSplitContainer" parent="." index="0"]
+layout_mode = 2
+
+[node name="HSplitContainer" parent="VSplitContainer" index="0"]
+custom_minimum_size = Vector2(0, 175)
+layout_mode = 2
+
+[node name="SummaryTree" parent="VSplitContainer/HSplitContainer" index="0"]
+layout_mode = 2
+
+[node name="MarginContainer" parent="VSplitContainer/HSplitContainer" index="1"]
+layout_mode = 2
+
+[node name="PieGraph" parent="VSplitContainer/HSplitContainer/MarginContainer" index="0"]
+layout_mode = 2
+
+[node name="Tree" parent="VSplitContainer" index="1"]
+layout_mode = 2
+column_titles_visible = true

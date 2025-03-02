@@ -1,5 +1,5 @@
-tool
-extends "./TreeView.gd"
+@tool
+extends TreeView
 
 enum {
 	NAME_COLUMN,
@@ -18,7 +18,7 @@ var total_comments_lines: TreeItem
 var total_blank_lines: TreeItem
 var total_size: TreeItem
 
-onready var graph: Control = $VSplitContainer/HSplitContainer/MarginContainer/PieGraph
+@onready var graph: Control = $VSplitContainer/HSplitContainer/MarginContainer/PieGraph
 
 func _ready() -> void:
 	tree = $VSplitContainer/Tree
@@ -34,8 +34,8 @@ func _ready() -> void:
 	tree.set_column_titles_visible(true)
 	tree.hide_root = true
 	
-	tree.connect("item_activated", self, "_on_item_activated")
-	tree.connect("column_title_pressed", self, "_on_column_title_pressed")
+	tree.connect("item_activated", _on_item_activated)
+	tree.connect("column_title_clicked", _on_column_title_pressed)
 	
 	var root: TreeItem = summary_tree.create_item()
 	total_files = summary_tree.create_item(root)
@@ -54,7 +54,7 @@ func _ready() -> void:
 	summary_tree.hide_root = true
 
 func display(stats: ProjectStatistics) -> void:
-	.display(stats)
+	super(stats)
 	total_files.set_text(1, str(stats.misc.size()))
 	total_lines.set_text(1, str(stats.get_total_lines(false)))
 	total_code_lines.set_text(1, str(stats.get_total_code_lines(false)))
@@ -68,9 +68,9 @@ func display(stats: ProjectStatistics) -> void:
 		var extension: String = file_stats.get_extension()
 		var color: Color = file_stats.get_color()
 		
-		var chart_data: PieChart.ChartData
+		var chart_data: ChartData
 		if not series.has(extension):
-			chart_data = PieChart.ChartData.new()
+			chart_data = ChartData.new()
 			chart_data.name = extension
 			chart_data.color = color
 			series[extension] = chart_data
@@ -87,7 +87,7 @@ func update_tree(stats: ProjectStatistics) -> void:
 		var item: TreeItem = tree.create_item(root)
 		
 		item.set_text(NAME_COLUMN, file_stats.get_name())
-		item.set_tooltip(NAME_COLUMN, file_stats.path)
+		item.set_tooltip_text(NAME_COLUMN, file_stats.path)
 		item.set_metadata(NAME_COLUMN, file_stats.path)
 		
 		item.set_text(EXTENSION_COLUMN, file_stats.get_extension())
@@ -100,42 +100,41 @@ func update_tree(stats: ProjectStatistics) -> void:
 		
 		_format_size(item, SIZE_COLUMN, file_stats.size)
 
-func update_icons() -> void:
+func _update_icons() -> void:
 	var root: TreeItem = tree.get_root()
 	if not root:
 		return
-	var next: TreeItem = root.get_children()
-	while next:
+	var root_children: Array[TreeItem] = root.get_children()
+	for next: TreeItem in root_children:
 		var icon_path: String = next.get_metadata(EXTENSION_COLUMN)
 		
 		var icon: Texture 
 		
-		if has_icon(icon_path, "EditorIcons"):
-			icon = get_icon(icon_path, "EditorIcons")
+		if has_theme_icon(icon_path, "EditorIcons"):
+			icon = get_theme_icon(icon_path, "EditorIcons")
 		elif ResourceLoader.exists(icon_path):
 			icon = ResourceLoader.load(icon_path)
 		
 		next.set_icon(NAME_COLUMN, icon)
 		next.set_icon_max_width(NAME_COLUMN, 16)
 		
-		next.set_icon(TOTAL_LINES_COLUMN, get_icon("MultiLine", "EditorIcons"))
-		next.set_icon(SOURCE_LINES_COLUMN, get_icon("MultiLine", "EditorIcons"))
-		next.set_icon(COMMENT_LINES_COLUMN, get_icon("VisualScriptComment", "EditorIcons"))
-		next = next.get_next()
+		next.set_icon(TOTAL_LINES_COLUMN, get_theme_icon("DebugNext", "EditorIcons"))
+		next.set_icon(SOURCE_LINES_COLUMN, get_theme_icon("CodeHighlighter", "EditorIcons"))
+		next.set_icon(COMMENT_LINES_COLUMN, get_theme_icon("VisualShaderNodeComment", "EditorIcons"))
 
 func _sort_by_column(column: int) -> void:
 	match column:
 		NAME_COLUMN:
-			stats.misc.sort_custom(self, "sort_name")
+			stats.misc.sort_custom(sort_name)
 		EXTENSION_COLUMN:
-			stats.misc.sort_custom(self, "sort_extension")
+			stats.misc.sort_custom(sort_extension)
 		TOTAL_LINES_COLUMN:
-			stats.misc.sort_custom(self, "sort_total_lines")
+			stats.misc.sort_custom(sort_total_lines)
 		SOURCE_LINES_COLUMN:
-			stats.misc.sort_custom(self, "sort_source_code_lines")
+			stats.misc.sort_custom(sort_source_code_lines)
 		COMMENT_LINES_COLUMN:
-			stats.misc.sort_custom(self, "sort_comment_lines")
+			stats.misc.sort_custom(sort_comment_lines)
 		BLANK_LINES_COLUMN:
-			stats.misc.sort_custom(self, "sort_blank_lines")
+			stats.misc.sort_custom(sort_blank_lines)
 		SIZE_COLUMN:
-			stats.misc.sort_custom(self, "sort_size")
+			stats.misc.sort_custom(sort_size)

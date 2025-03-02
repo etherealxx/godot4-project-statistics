@@ -1,4 +1,4 @@
-tool
+@tool
 extends "./StatisticsView.gd"
 
 const BURNT_SIENNA: Color = Color("#EC6B56")
@@ -10,8 +10,8 @@ var total_resources: TreeItem
 var total_scripts: TreeItem
 var other_files: TreeItem
 
-onready var summary: Tree = $HSplitContainer/SummaryTree
-onready var graph: Control = $HSplitContainer/VBoxContainer/PieGraph
+@onready var summary: Tree = $HSplitContainer/SummaryTree
+@onready var graph: Control = $HSplitContainer/VBoxContainer/PieGraph
 
 func _ready() -> void:
 	var root: TreeItem = summary.create_item()
@@ -28,7 +28,7 @@ func _ready() -> void:
 	summary.hide_root = true
 
 func display(stats: ProjectStatistics) -> void:
-	.display(stats)
+	super(stats)
 	total_scenes.set_text(1, str(stats.scenes.size()))
 	total_resources.set_text(1, str(stats.resources.size()))
 	total_scripts.set_text(1, str(stats.scripts.size()))
@@ -38,7 +38,7 @@ func display(stats: ProjectStatistics) -> void:
 	series["Scenes"] = _create_chart_data("Scenes", BURNT_SIENNA)
 	series["Resources"] = _create_chart_data("Resources", CRAYOLA_MAIZE)
 	series["Scripts"] = _create_chart_data("Scripts", KEPPEL)
-	series["Other"] = _create_chart_data("Other", Color.lightgray)
+	series["Other"] = _create_chart_data("Other", Color.LIGHT_GRAY)
 	for file_stats in stats.scenes:
 		series["Scenes"].value += file_stats.size
 	for file_stats in stats.resources:
@@ -49,14 +49,14 @@ func display(stats: ProjectStatistics) -> void:
 		series["Other"].value += file_stats.size
 	graph.set_series(series)
 
-func update_icons() -> void:
-	total_scenes.set_icon(0, get_icon("PackedScene", "EditorIcons"))
-	total_resources.set_icon(0, get_icon("Object", "EditorIcons"))
-	total_scripts.set_icon(0, get_icon("Script", "EditorIcons"))
-	other_files.set_icon(0, get_icon("File", "EditorIcons"))
+func _update_icons() -> void:
+	total_scenes.set_icon(0, get_theme_icon("PackedScene", "EditorIcons"))
+	total_resources.set_icon(0, get_theme_icon("Object", "EditorIcons"))
+	total_scripts.set_icon(0, get_theme_icon("Script", "EditorIcons"))
+	other_files.set_icon(0, get_theme_icon("File", "EditorIcons"))
 
-func _create_chart_data(name: String, color: Color) -> PieChart.ChartData:
-	var data: PieChart.ChartData = PieChart.ChartData.new()
+func _create_chart_data(name: String, color: Color) -> ChartData:
+	var data: ChartData = ChartData.new()
 	data.name = name
 	data.color = color
 	return data

@@ -6,7 +6,7 @@ func get_extension() -> String:
 	return "YAMl"
 	
 func get_color() -> Color:
-	return Color.mediumpurple
+	return Color.MEDIUM_PURPLE
 
 func get_icon() -> String:
 	return ICON.resource_path

@@ -1,4 +1,4 @@
-extends "../FileStatistics.gd"
+extends FileStatistics
 
 var local_to_scene: bool
 var type: String
@@ -33,7 +33,7 @@ func get_icon() -> String:
 
 func get_color() -> Color:
 	if type == "VisualScript":
-		return Color.azure
+		return Color.AZURE
 	var color = Color(hash(type)).inverted()
 	color.a = 1.0
 	return color
