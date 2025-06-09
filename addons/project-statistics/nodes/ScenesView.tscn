@@ -1,20 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://jw1e4jvpe58d"]
+[gd_scene load_steps=2 format=3 uid="uid://jw1e4jvpe58d"]
 
-[ext_resource type="Script" path="res://addons/project-statistics/nodes/ScenesView.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://b5nlv1mkeauvg" path="res://icon.svg" id="2_i2xm6"]
+[ext_resource type="Script" uid="uid://c1vi11bk28g2r" path="res://addons/project-statistics/nodes/ScenesView.gd" id="1"]
 
-[node name="ScenesView" type="MarginContainer" node_paths=PackedStringArray("debug_texture")]
+[node name="ScenesView" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1")
-debug_texture = NodePath("TextureRect")
 
 [node name="VSplitContainer" type="VSplitContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-split_offset = 95
+split_offset = 160
 dragger_visibility = 2
 
 [node name="SummaryTree" type="Tree" parent="VSplitContainer"]
@@ -34,4 +32,3 @@ hide_root = true
 [node name="TextureRect" type="TextureRect" parent="."]
 visible = false
 layout_mode = 2
-texture = ExtResource("2_i2xm6")

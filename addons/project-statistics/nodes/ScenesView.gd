@@ -10,7 +10,7 @@ enum {
 	SIZE_COLUMN
 }
 
-@export var debug_texture: TextureRect
+#@export var debug_texture: TextureRect
 
 var total_scenes: TreeItem
 var total_nodes: TreeItem

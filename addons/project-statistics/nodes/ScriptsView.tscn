@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://gv45vkqajci5"]
 
 [ext_resource type="PackedScene" path="res://addons/project-statistics/nodes/charts/PieGraph.tscn" id="1"]
-[ext_resource type="Script" path="res://addons/project-statistics/nodes/ScriptsView.gd" id="2"]
+[ext_resource type="Script" uid="uid://qvosawsvfh4h" path="res://addons/project-statistics/nodes/ScriptsView.gd" id="2"]
 
 [node name="ScriptsView" type="MarginContainer"]
 anchors_preset = 15
@@ -11,6 +11,7 @@ script = ExtResource("2")
 
 [node name="VSplitContainer" type="VSplitContainer" parent="."]
 layout_mode = 2
+split_offset = 270
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VSplitContainer"]
 custom_minimum_size = Vector2(0, 175)

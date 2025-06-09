@@ -20,6 +20,7 @@ func _on_refresh_pressed() -> void:
 	resources_view.display(stats)
 	scripts_view.display(stats)
 	misc_view.display(stats)
+	print("Statistics refreshed.")
 
 func _on_file_selected(path: String) -> void:
 	if Engine.is_editor_hint():

@@ -18,12 +18,16 @@ var preview: Control
 func _enter_tree() -> void:
 	preview = StatisticsPreview.instantiate()
 	#preview.editor_interface = get_editor_interface()
-	add_control_to_bottom_panel(preview, "Statistics")
+	#add_control_to_bottom_panel(preview, "Statistics")
+	EditorInterface.get_editor_main_screen().add_child(preview)
 	_setup()
+	_make_visible(false)
 
 func _exit_tree() -> void:
-	remove_control_from_bottom_panel(preview)
+	#remove_control_from_bottom_panel(preview)
 	#preview.editor_interface = null
+	if preview:
+		preview.queue_free()
 
 func _setup() -> void:
 	if not ProjectSettings.has_setting(IGNORE_PROPERTY):
@@ -40,3 +44,16 @@ func _setup() -> void:
 			name = FORCE_INCLUDE_PROPERTY,
 			type = TYPE_PACKED_STRING_ARRAY
 		})
+
+func _has_main_screen():
+	return true
+
+func _make_visible(visible):
+	if preview:
+		preview.visible = visible
+
+func _get_plugin_name():
+	return "Stats"
+	
+func _get_plugin_icon():
+	return EditorInterface.get_editor_theme().get_icon("ProjectList", "EditorIcons")

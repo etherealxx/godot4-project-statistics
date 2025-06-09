@@ -1,3 +1,5 @@
+###### This fork, beside jcommander's Godot 4 port, adjusted the addon to be a main screen addon instead, with a couple more adjustments and bug fix
+
 # Godot Project Statistics
 
 An addon for [Godot Engine](https://github.com/godotengine/godot/) which adds an UI panel to display some information on the current opened project ([view screenshots](#screenshots)).

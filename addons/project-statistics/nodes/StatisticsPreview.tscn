@@ -1,17 +1,21 @@
 [gd_scene load_steps=7 format=3 uid="uid://dw7fie6ob8bvp"]
 
-[ext_resource type="Script" path="res://addons/project-statistics/nodes/StatisticsPreview.gd" id="1"]
-[ext_resource type="PackedScene" path="res://addons/project-statistics/nodes/Overview.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://addons/project-statistics/nodes/ScenesView.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://addons/project-statistics/nodes/ResourcesView.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://addons/project-statistics/nodes/ScriptsView.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://addons/project-statistics/nodes/MiscView.tscn" id="6"]
+[ext_resource type="Script" uid="uid://51ghewxfm0n2" path="res://addons/project-statistics/nodes/StatisticsPreview.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://di81sy60l5cfe" path="res://addons/project-statistics/nodes/Overview.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://jw1e4jvpe58d" path="res://addons/project-statistics/nodes/ScenesView.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://cl4gpvd21pg75" path="res://addons/project-statistics/nodes/ResourcesView.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://gv45vkqajci5" path="res://addons/project-statistics/nodes/ScriptsView.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://d2tspkrigfp27" path="res://addons/project-statistics/nodes/MiscView.tscn" id="6"]
 
 [node name="StatisticsPreview" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1")
 
 [node name="VSplitContainer" type="VSplitContainer" parent="."]

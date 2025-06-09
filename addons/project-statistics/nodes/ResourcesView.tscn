@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cl4gpvd21pg75"]
 
-[ext_resource type="Script" path="res://addons/project-statistics/nodes/ResourcesView.gd" id="1"]
+[ext_resource type="Script" uid="uid://dlshq31kqawk8" path="res://addons/project-statistics/nodes/ResourcesView.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://gv45vkqajci5" path="res://addons/project-statistics/nodes/ScriptsView.tscn" id="2"]
 
 [node name="ResourcesView" instance=ExtResource("2")]

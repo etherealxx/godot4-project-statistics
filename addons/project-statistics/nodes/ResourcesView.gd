@@ -56,8 +56,8 @@ func display(stats: ProjectStatistics) -> void:
 			series[extension] = chart_data
 		else:
 			chart_data = series[extension]
-		chart_data.value += file_stats.size()
-	print(series)
+		chart_data.value += file_stats.size
+	#print(series)
 	graph.set_series(series)
 
 func update_tree(stats: ProjectStatistics) -> void:
